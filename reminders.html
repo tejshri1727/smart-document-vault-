@@ -1,86 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Reminders - Smart Document Vault</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Reminders | Smart Vault</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <nav>
+    <a class="brand" href="index.html">🔐 Smart Vault</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="add-document.html">Add Document</a>
+      <a href="documents.html">My Documents</a>
+      <a href="vehicle.html">Vehicle</a>
+      <a href="reminders.html">Reminders</a>
+    </div>
+  </nav>
 
-    <!-- Navigation -->
-    <nav>
-        <h2>Smart Document Vault</h2>
+  <main class="container">
+    <div class="page-heading">
+      <h1>🔔 Smart Document Reminders</h1>
+      <p>Documents expiring within 30 days and expired documents appear here.</p>
+      <a class="btn" href="add-document.html">+ Add Document</a>
+    </div>
 
-        <div>
-            <a href="index.html">Home</a>
-            <a href="add-document.html">Add Document</a>
-            <a href="documents.html">My Documents</a>
-            <a href="vehicle.html">Vehicle</a>
-            <a href="reminders.html">Reminders</a>
-        </div>
-    </nav>
+    <div class="panel">
+      <h2>Expiry Alerts</h2>
+      <p class="muted">Add the correct expiry date to track your renewals.</p>
+    </div>
 
+    <div id="reminderList" class="document-list"></div>
+  </main>
 
-    <!-- Reminders Section -->
-    <section class="features">
-
-        <h2>Document Reminders</h2>
-
-        <p>Check the expiry status of your important documents.</p>
-
-        <br>
-
-        <div class="cards">
-
-            <div class="card">
-                <h3>🛡️ Insurance</h3>
-                <p>Expiry Date: Not Added</p>
-                <p>Status: No Reminder</p>
-            </div>
-
-            <div class="card">
-                <h3>🌱 PUC</h3>
-                <p>Expiry Date: Not Added</p>
-                <p>Status: No Reminder</p>
-            </div>
-
-            <div class="card">
-                <h3>🔧 Warranty</h3>
-                <p>Expiry Date: Not Added</p>
-                <p>Status: No Reminder</p>
-            </div>
-
-            <div class="card">
-                <h3>📄 RC</h3>
-                <p>Expiry Date: Not Added</p>
-                <p>Status: No Reminder</p>
-            </div>
-
-        </div>
-
-        <br><br>
-
-        <a href="add-document.html" class="btn">
-            + Add Document
-        </a>
-
-    </section>
-
-
-    <!-- Footer -->
-    <footer>
-
-        <p>© 2026 Smart Document Vault</p>
-
-        <p>Digital Warranty & Vehicle Document Reminder System</p>
-
-    </footer>
-
+  <footer>© 2026 Smart Document Vault | PBL Project</footer>
+  <script src="script.js"></script>
 </body>
-
 </html>
