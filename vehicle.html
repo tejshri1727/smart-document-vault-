@@ -1,82 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Vehicle - Smart Document Vault</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Vault | Smart Vault</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <nav>
+    <a class="brand" href="index.html">🔐 Smart Vault</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="add-document.html">Add Document</a>
+      <a href="documents.html">My Documents</a>
+      <a href="vehicle.html">Vehicle</a>
+      <a href="reminders.html">Reminders</a>
+    </div>
+  </nav>
 
-    <!-- Navigation -->
-    <nav>
-        <h2>Smart Document Vault</h2>
+  <main class="container">
+    <div class="page-heading">
+      <h1>🚗 Vehicle Document Vault</h1>
+      <p>Manage RC, insurance, PUC and vehicle warranty records.</p>
+      <a class="btn" href="add-document.html">+ Add Vehicle Record</a>
+      <a class="btn" href="documents.html?category=Vehicle">Search Vehicle Records</a>
+    </div>
 
-        <div>
-            <a href="index.html">Home</a>
-            <a href="add-document.html">Add Document</a>
-            <a href="documents.html">My Documents</a>
-            <a href="vehicle.html">Vehicle</a>
-            <a href="reminders.html">Reminders</a>
-        </div>
-    </nav>
+    <div id="vehicleList" class="document-list"></div>
+  </main>
 
-
-    <!-- Vehicle Section -->
-    <section class="features">
-
-        <h2>Vehicle Information</h2>
-
-        <p>Manage your vehicle details in one place.</p>
-
-        <br>
-
-        <div class="cards">
-
-            <div class="card">
-                <h3>🚗 Vehicle Number</h3>
-                <p>MH12AB1234</p>
-            </div>
-
-            <div class="card">
-                <h3>🏷️ Vehicle Type</h3>
-                <p>Car / Bike</p>
-            </div>
-
-            <div class="card">
-                <h3>🏢 Manufacturer</h3>
-                <p>Vehicle Manufacturer</p>
-            </div>
-
-            <div class="card">
-                <h3>📅 Registration Year</h3>
-                <p>2026</p>
-            </div>
-
-        </div>
-
-        <br><br>
-
-        <a href="add-document.html" class="btn">
-            + Add Vehicle Document
-        </a>
-
-    </section>
-
-
-    <!-- Footer -->
-    <footer>
-
-        <p>© 2026 Smart Document Vault</p>
-
-        <p>Digital Warranty & Vehicle Document Reminder System</p>
-
-    </footer>
-
+  <footer>© 2026 Smart Document Vault | PBL Project</footer>
+  <script src="script.js"></script>
 </body>
-
 </html>
