@@ -1,122 +1,78 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Smart Document Vault</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Document Vault</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <nav>
+    <a class="brand" href="index.html">🔐 Smart Vault</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="add-document.html">Add Document</a>
+      <a href="documents.html">My Documents</a>
+      <a href="vehicle.html">Vehicle</a>
+      <a href="reminders.html">Reminders</a>
+    </div>
+  </nav>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <h2>Smart Document Vault</h2>
+  <header class="hero">
+    <span class="eyebrow">YOUR PERSONAL DIGITAL ORGANIZER</span>
+    <h1>All Your Documents.<br><span>One Smart Vault.</span></h1>
+    <p>Manage vehicle documents, mobile warranties and home appliance bills in one place.</p>
+    <a class="btn" href="add-document.html">+ Add New Document</a>
+    <a class="btn btn-outline" href="documents.html">Explore My Vault</a>
+  </header>
 
-        <div>
-            <a href="index.html">Home</a>
-            <a href="add-document.html">Add Document</a>
-            <a href="documents.html">My Documents</a>
-            <a href="vehicle.html">Vehicle</a>
-            <a href="reminders.html">Reminders</a>
-        </div>
-    </nav>
+  <main class="container">
+    <h2 class="section-title">Your Dashboard</h2>
+    <div class="stats">
+      <div class="stat-card"><span>Total Documents</span><h2 id="totalCount">0</h2></div>
+      <div class="stat-card"><span>Expiring Soon</span><h2 id="soonCount">0</h2></div>
+      <div class="stat-card"><span>Expired</span><h2 id="expiredCount">0</h2></div>
+    </div>
 
+    <h2 class="section-title">Explore Categories</h2>
+    <div class="category-grid">
+      <a class="category-card" href="vehicle.html">
+        <span class="category-icon">🚗</span>
+        <h3>Vehicle Vault</h3>
+        <p>RC, Insurance, PUC and vehicle warranty.</p>
+        <span class="card-link">Manage vehicle →</span>
+      </a>
+      <a class="category-card" href="documents.html?category=Mobile">
+        <span class="category-icon">📱</span>
+        <h3>Mobile Warranty</h3>
+        <p>Mobile bills, IMEI, purchase and warranty dates.</p>
+        <span class="card-link">View mobiles →</span>
+      </a>
+      <a class="category-card" href="documents.html?category=Home Appliance">
+        <span class="category-icon">🏠</span>
+        <h3>Home Appliances</h3>
+        <p>TV, AC, refrigerator, washing machine and more.</p>
+        <span class="card-link">View appliances →</span>
+      </a>
+      <a class="category-card" href="reminders.html">
+        <span class="category-icon">🔔</span>
+        <h3>Smart Reminders</h3>
+        <p>Check upcoming and expired documents.</p>
+        <span class="card-link">View reminders →</span>
+      </a>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-
-        <h1>SMART DOCUMENT VAULT</h1>
-
-        <h2>Digital Warranty & Vehicle Document Reminder System</h2>
-
-        <p>
-            A simple digital solution to store, manage and track
-            important vehicle documents such as RC, Insurance,
-            PUC, Warranty Cards and Bills.
-        </p>
-
-        <a href="add-document.html" class="btn">
-            + Add Document
-        </a>
-
+    <section class="panel">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div><strong>01</strong><h3>Add</h3><p>Enter document details and dates.</p></div>
+        <div><strong>02</strong><h3>Organize</h3><p>Keep your records in one dashboard.</p></div>
+        <div><strong>03</strong><h3>Track</h3><p>Monitor expiry dates and upcoming renewals.</p></div>
+      </div>
     </section>
+  </main>
 
-
-    <!-- Features Section -->
-    <section class="features">
-
-        <h2>Key Features</h2>
-
-        <div class="cards">
-
-            <div class="card">
-                <h3>📄 Document Storage</h3>
-                <p>
-                    Store important vehicle documents
-                    in one organized place.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>🔍 Easy Search</h3>
-                <p>
-                    Quickly search and find your
-                    saved documents.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>⏰ Expiry Tracking</h3>
-                <p>
-                    Track expiry dates of Insurance,
-                    PUC and other documents.
-                </p>
-            </div>
-
-            <div class="card">
-                <h3>🔔 Reminders</h3>
-                <p>
-                    Get reminders before important
-                    documents expire.
-                </p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- About Section -->
-    <section class="features">
-
-        <h2>Why Smart Document Vault?</h2>
-
-        <p>
-            Managing vehicle documents manually can be difficult.
-            Smart Document Vault provides a centralized system
-            to organize documents and monitor their validity.
-        </p>
-
-    </section>
-
-
-    <!-- Footer -->
-    <footer>
-
-        <p>
-            © 2026 Smart Document Vault
-        </p>
-
-        <p>
-            Digital Warranty & Vehicle Document Reminder System
-        </p>
-
-    </footer>
-
+  <footer>© 2026 Smart Document Vault | PBL Project</footer>
+  <script src="script.js"></script>
 </body>
 </html>
-```
