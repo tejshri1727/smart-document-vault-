@@ -1,109 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Add Document - Smart Document Vault</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Document | Smart Vault</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <nav>
+    <a class="brand" href="index.html">🔐 Smart Vault</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="add-document.html">Add Document</a>
+      <a href="documents.html">My Documents</a>
+      <a href="vehicle.html">Vehicle</a>
+      <a href="reminders.html">Reminders</a>
+    </div>
+  </nav>
 
-    <!-- Navigation -->
-    <nav>
-        <h2>Smart Document Vault</h2>
+  <main class="container">
+    <div class="page-heading">
+      <h1>Add New Document</h1>
+      <p>Enter your vehicle, mobile or appliance details.</p>
+    </div>
 
-        <div>
-            <a href="index.html">Home</a>
-            <a href="add-document.html">Add Document</a>
-            <a href="documents.html">My Documents</a>
-            <a href="vehicle.html">Vehicle</a>
-            <a href="reminders.html">Reminders</a>
+    <form id="documentForm" class="form-panel">
+      <div class="form-grid">
+        <div class="field">
+          <label for="category">Category *</label>
+          <select id="category" required>
+            <option value="Vehicle">Vehicle</option>
+            <option value="Mobile">Mobile</option>
+            <option value="Home Appliance">Home Appliance</option>
+          </select>
         </div>
-    </nav>
 
+        <div class="field">
+          <label for="type">Document Type *</label>
+          <select id="type" required></select>
+        </div>
 
-    <!-- Add Document Section -->
-    <section class="features">
+        <div class="field full">
+          <label id="nameLabel" for="name">Document / Product Name *</label>
+          <input id="name" type="text" placeholder="e.g. Honda Activa or Samsung Mobile" required>
+        </div>
 
-        <h2>Add New Document</h2>
+        <div class="field">
+          <label id="brandLabel" for="brand">Brand / Vehicle Number</label>
+          <input id="brand" type="text" placeholder="Enter brand, model or vehicle number">
+        </div>
 
-        <p>Enter your vehicle document details below.</p>
+        <div class="field">
+          <label id="numberLabel" for="number">Document / Serial Number</label>
+          <input id="number" type="text" placeholder="Optional">
+        </div>
 
-        <br>
+        <div class="field">
+          <label for="issue">Purchase / Issue Date</label>
+          <input id="issue" type="date">
+        </div>
 
-        <form>
+        <div class="field">
+          <label for="expiry">Warranty / Expiry Date</label>
+          <input id="expiry" type="date">
+        </div>
 
-            <label>Document Type</label>
-            <br><br>
+        <div class="field full">
+          <label for="documentFile">Select Document File (optional)</label>
+          <input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png">
+          <small class="muted">Demo only: the file name is recorded, but the file itself is not uploaded.</small>
+        </div>
+      </div>
 
-            <select required>
-                <option value="">Select Document</option>
-                <option>RC</option>
-                <option>Insurance</option>
-                <option>PUC</option>
-                <option>Warranty</option>
-                <option>Vehicle Bill</option>
-            </select>
+      <div class="form-actions">
+        <button class="btn" type="submit">Save Document</button>
+        <a class="btn" href="documents.html">View Documents</a>
+      </div>
+    </form>
+  </main>
 
-            <br><br>
-
-            <label>Vehicle Number</label>
-            <br><br>
-
-            <input type="text" placeholder="MH12AB1234" required>
-
-            <br><br>
-
-            <label>Document Number</label>
-            <br><br>
-
-            <input type="text" placeholder="Enter document number" required>
-
-            <br><br>
-
-            <label>Issue Date</label>
-            <br><br>
-
-            <input type="date" required>
-
-            <br><br>
-
-            <label>Expiry Date</label>
-            <br><br>
-
-            <input type="date" required>
-
-            <br><br>
-
-            <label>Upload Document</label>
-            <br><br>
-
-            <input type="file">
-
-            <br><br>
-
-            <button type="submit" class="btn">
-                Save Document
-            </button>
-
-        </form>
-
-    </section>
-
-
-    <!-- Footer -->
-    <footer>
-
-        <p>© 2026 Smart Document Vault</p>
-
-        <p>Digital Warranty & Vehicle Document Reminder System</p>
-
-    </footer>
-
+  <footer>© 2026 Smart Document Vault | PBL Project</footer>
+  <script src="script.js"></script>
 </body>
-
 </html>
