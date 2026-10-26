@@ -1,8 +1,4 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -18,21 +14,13 @@
 }
 
 body {
-    background: #f4f8ff;
-    color: #222;
   font-family: Arial, sans-serif;
   background: var(--light);
   color: var(--dark);
   line-height: 1.6;
 }
 
-/* Navigation */
 nav {
-    background: #0b5ed7;
-    padding: 18px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   background: white;
   padding: 18px 5%;
   display: flex;
@@ -56,8 +44,6 @@ nav {
   flex-wrap: wrap;
 }
 
-nav h2 {
-    color: white;
 .nav-links a {
   text-decoration: none;
   color: var(--dark);
@@ -65,21 +51,11 @@ nav h2 {
   font-weight: 600;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 25px;
-    font-weight: bold;
 .nav-links a:hover {
   color: var(--blue);
 }
 
-/* Home Section */
 .hero {
-    text-align: center;
-    padding: 80px 20px;
-    background: linear-gradient(135deg, #0b5ed7, #4dabf7);
-    color: white;
   text-align: center;
   padding: 75px 20px;
   background: linear-gradient(135deg, #102b68, #3478f6);
@@ -93,8 +69,6 @@ nav a {
 }
 
 .hero h1 {
-    font-size: 45px;
-    margin-bottom: 15px;
   font-size: clamp(34px, 5vw, 54px);
   line-height: 1.2;
   margin: 20px 0;
@@ -105,24 +79,12 @@ nav a {
 }
 
 .hero p {
-    font-size: 20px;
-    max-width: 700px;
-    margin: auto;
-    line-height: 1.6;
   max-width: 650px;
   margin: 0 auto 25px;
   color: #e2eaff;
 }
 
 .btn {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 14px 28px;
-    background: white;
-    color: #0b5ed7;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
   display: inline-block;
   padding: 12px 20px;
   margin: 5px;
@@ -227,45 +189,24 @@ nav a {
   font-size: 25px;
 }
 
-/* Features */
-.features {
-    padding: 50px 30px;
-    text-align: center;
 .steps p {
   color: var(--muted);
   font-size: 14px;
 }
 
-.features h2 {
-    color: #0b5ed7;
-    margin-bottom: 30px;
 .page-heading {
   margin-bottom: 25px;
 }
 
-.cards {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
 .page-heading p {
   color: var(--muted);
 }
 
-.card {
-    background: white;
-    width: 220px;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 .form-panel {
   max-width: 780px;
   margin: 25px auto;
 }
 
-.card h3 {
-    color: #0b5ed7;
-    margin-bottom: 10px;
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -378,11 +319,6 @@ input:focus, select:focus, textarea:focus {
 }
 
 footer {
-    background: #0b5ed7;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    margin-top: 30px;
   margin-top: 45px;
   padding: 24px;
   text-align: center;
