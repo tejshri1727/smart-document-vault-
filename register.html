@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Smart Document Vault</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container" style="max-width:420px; margin:60px auto; padding:24px;">
+    <h1>Create Account</h1>
+    <p>Register to use Smart Document Vault.</p>
+
+    <form id="registerForm">
+      <label for="email">Email</label>
+      <input id="email" type="email" required
+             autocomplete="email"
+             style="display:block;width:100%;padding:12px;margin:8px 0 16px;">
+
+      <label for="password">Password (at least 6 characters)</label>
+      <input id="password" type="password" required minlength="6"
+             autocomplete="new-password"
+             style="display:block;width:100%;padding:12px;margin:8px 0 16px;">
+
+      <button type="submit" class="btn">Register</button>
+      <p id="message" role="status"></p>
+    </form>
+
+    <p>Already have an account? <a href="login.html">Login</a></p>
+    <p><a href="index.html">Back to Home</a></p>
+  </main>
+
+  <script type="module">
+    import { auth } from "./firebase-config.js";
+    import {
+      createUserWithEmailAndPassword,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const form = document.getElementById("registerForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.textContent = "Creating account...";
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        message.textContent = "Registration successful! You can now use your account.";
+        window.location.href = "index.html";
+      } catch (error) {
+        message.textContent =
+          error.code === "auth/email-already-in-use"
+            ? "This email is already registered. Please log in."
+            : error.code === "auth/weak-password"
+            ? "Please choose a stronger password."
+            : "Registration failed: " + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
