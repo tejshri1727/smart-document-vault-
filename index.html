@@ -190,3 +190,443 @@
 </body>
 </html>
 
+/* FIX: Match existing index.html dashboard classes */
+
+.vault-dashboard {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.vault-dashboard .sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  width: 245px;
+  padding: 24px 17px;
+  overflow-y: auto;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+}
+
+.vault-dashboard .sidebar .brand {
+  display: block;
+  padding: 8px;
+  margin-bottom: 24px;
+  color: white;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.vault-dashboard .sidebar-label {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.vault-dashboard .sidebar-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.vault-dashboard .sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.vault-dashboard .sidebar-nav a.active,
+.vault-dashboard .sidebar-nav a:hover {
+  background: #253963;
+  color: white;
+}
+
+.vault-dashboard .sidebar-bottom {
+  margin-top: auto;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.vault-dashboard .sidebar-bottom p,
+.vault-dashboard .muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.vault-dashboard .main-content {
+  min-width: 0;
+  margin-left: 245px;
+  padding: 30px clamp(20px, 3vw, 42px);
+}
+
+.vault-dashboard .dashboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.vault-dashboard .dashboard-topbar h1 {
+  margin: 8px 0;
+  font-size: 28px;
+}
+
+.vault-dashboard .eyebrow {
+  color: #a9bcff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.vault-dashboard .btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 17px;
+  border-radius: 10px;
+  background: linear-gradient(110deg, #527cff, #8865f5);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.vault-dashboard .dashboard-welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  padding: 35px;
+  border: 1px solid #3b4d7a;
+  border-radius: 22px;
+  background: radial-gradient(circle at top right, #7053a955, transparent 40%),
+              linear-gradient(115deg, #1d3260, #29264f);
+}
+
+.vault-dashboard .welcome-content {
+  max-width: 600px;
+}
+
+.vault-dashboard .welcome-tag {
+  color: #c7d4ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.vault-dashboard .dashboard-welcome h2 {
+  color: white;
+  font-size: clamp(27px, 3vw, 40px);
+  line-height: 1.2;
+}
+
+.vault-dashboard .dashboard-welcome h2 span {
+  color: #bfcaff;
+}
+
+.vault-dashboard .dashboard-welcome p {
+  color: #d1d8f0;
+  font-size: 13px;
+}
+
+.vault-dashboard .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.vault-dashboard .btn-outline {
+  border: 1px solid #9aabef;
+  background: transparent;
+}
+
+.vault-dashboard .welcome-art {
+  position: relative;
+  display: grid;
+  flex: 0 0 150px;
+  min-height: 150px;
+  place-items: center;
+}
+
+.vault-dashboard .art-circle {
+  display: grid;
+  place-items: center;
+  width: 115px;
+  height: 115px;
+  border: 1px solid #ffffff50;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #648cff, #a78bfa);
+  font-size: 48px;
+  transform: rotate(5deg);
+}
+
+.vault-dashboard .art-card {
+  position: absolute;
+  padding: 8px 10px;
+  border: 1px solid #ffffff30;
+  border-radius: 9px;
+  background: #172544;
+  color: white;
+  font-size: 10px;
+}
+
+.vault-dashboard .art-card-one {
+  top: 5px;
+  left: -10px;
+}
+
+.vault-dashboard .art-card-two {
+  right: -5px;
+  bottom: 5px;
+}
+
+.vault-dashboard .dashboard-section {
+  margin-top: 32px;
+}
+
+.vault-dashboard .section-heading {
+  margin-bottom: 17px;
+}
+
+.vault-dashboard .section-heading h2 {
+  margin-bottom: 4px;
+}
+
+.vault-dashboard .dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.vault-dashboard .dashboard-stat {
+  min-width: 0;
+  padding: 21px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.vault-dashboard .stat-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vault-dashboard .stat-icon,
+.vault-dashboard .category-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  background: #26385e;
+  font-size: 21px;
+}
+
+.vault-dashboard .stat-icon.orange,
+.vault-dashboard .category-icon.orange {
+  background: #493722;
+}
+
+.vault-dashboard .stat-icon.red {
+  background: #49283b;
+}
+
+.vault-dashboard .stat-label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.vault-dashboard .dashboard-stat h3 {
+  margin: 17px 0 5px;
+  font-size: 35px;
+}
+
+.vault-dashboard .dashboard-stat p,
+.vault-dashboard .dashboard-category p,
+.vault-dashboard .mini-step p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.vault-dashboard .dashboard-categories {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.vault-dashboard .dashboard-category {
+  display: block;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: .2s;
+}
+
+.vault-dashboard .dashboard-category:hover {
+  transform: translateY(-3px);
+  border-color: var(--blue);
+  background: var(--surface-hover);
+}
+
+.vault-dashboard .dashboard-category h3 {
+  margin-bottom: 8px;
+}
+
+.vault-dashboard .category-link {
+  color: #a9bcff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.vault-dashboard .dashboard-bottom {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.vault-dashboard .dashboard-panel {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.vault-dashboard .panel-icon {
+  font-size: 25px;
+}
+
+.vault-dashboard .mini-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-top: 18px;
+}
+
+.vault-dashboard .mini-step > span {
+  color: #a9bcff;
+  font-weight: 800;
+}
+
+.vault-dashboard .mini-step h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.vault-dashboard .quick-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12px;
+}
+
+.vault-dashboard .quick-icon {
+  font-size: 20px;
+}
+
+.vault-dashboard .quick-link strong,
+.vault-dashboard .quick-link small {
+  display: block;
+}
+
+.vault-dashboard .quick-link small {
+  color: var(--muted);
+}
+
+.vault-dashboard .quick-arrow {
+  margin-left: auto;
+  color: #a9bcff;
+}
+
+.vault-dashboard .dashboard-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .vault-dashboard .sidebar {
+    width: 200px;
+  }
+
+  .vault-dashboard .main-content {
+    margin-left: 200px;
+    padding: 22px;
+  }
+
+  .vault-dashboard .welcome-art {
+    display: none;
+  }
+
+  .vault-dashboard .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .vault-dashboard .sidebar {
+    position: relative;
+    width: 100%;
+    padding: 14px;
+  }
+
+  .vault-dashboard .sidebar-bottom {
+    display: none;
+  }
+
+  .vault-dashboard .sidebar-nav {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .vault-dashboard .sidebar-nav a {
+    flex: 0 0 auto;
+  }
+
+  .vault-dashboard .main-content {
+    margin-left: 0;
+    padding: 18px 14px;
+  }
+
+  .vault-dashboard .dashboard-topbar {
+    align-items: flex-start;
+  }
+
+  .vault-dashboard .dashboard-topbar h1 {
+    font-size: 23px;
+  }
+
+  .vault-dashboard .dashboard-welcome {
+    padding: 23px;
+  }
+
+  .vault-dashboard .dashboard-categories,
+  .vault-dashboard .dashboard-bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
