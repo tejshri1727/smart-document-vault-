@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Smart Document Vault</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container" style="max-width:420px; margin:60px auto; padding:24px;">
+    <h1>Login</h1>
+    <p>Sign in to your Smart Document Vault account.</p>
+
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <input id="email" type="email" required autocomplete="email"
+        style="display:block;width:100%;padding:12px;margin:8px 0 16px;">
+
+      <label for="password">Password</label>
+      <input id="password" type="password" required
+        autocomplete="current-password"
+        style="display:block;width:100%;padding:12px;margin:8px 0 16px;">
+
+      <button type="submit" class="btn">Login</button>
+      <p id="message" role="status"></p>
+    </form>
+
+    <p>Don't have an account? <a href="register.html">Register</a></p>
+    <p><a href="index.html">Back to Home</a></p>
+  </main>
+
+  <script type="module">
+    import { auth } from "./firebase-config.js";
+    import { signInWithEmailAndPassword }
+      from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.textContent = "Signing in...";
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "index.html";
+      } catch (error) {
+        message.textContent =
+          "Login failed. Please check your email and password and try again.";
+      }
+    });
+  </script>
+</body>
+</html>
