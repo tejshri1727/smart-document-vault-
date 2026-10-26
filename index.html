@@ -4,262 +4,189 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="description" content="Smart Document Vault helps manage vehicle documents, mobile warranties, appliance bills and expiry reminders.">
-
+  <meta name="description" content="Smart Document Vault helps manage documents, warranties and expiry reminders.">
   <title>Smart Document Vault | Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="vault-dashboard">
 
-  <div class="app-layout">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">🔐 Smart Vault</a>
 
-    <!-- LEFT SIDEBAR -->
-    <aside class="sidebar">
-      <a class="sidebar-brand" href="index.html">
-        <span class="brand-icon">🔐</span>
-        <span>Smart <strong>Vault</strong></span>
-      </a>
+    <p class="sidebar-label">MAIN MENU</p>
 
-      <p class="sidebar-label">MAIN MENU</p>
+    <nav class="sidebar-nav">
+      <a class="active" href="index.html">🏠 <span>Dashboard</span></a>
+      <a href="add-document.html">➕ <span>Add Document</span></a>
+      <a href="documents.html">📁 <span>My Documents</span></a>
+      <a href="vehicle.html">🚗 <span>Vehicle Vault</span></a>
+      <a href="reminders.html">🔔 <span>Reminders</span></a>
+    </nav>
 
-      <nav class="sidebar-nav" aria-label="Main navigation">
-        <a class="sidebar-link active" href="index.html" aria-current="page">
-          <span>▦</span> Dashboard
-        </a>
-        <a class="sidebar-link" href="add-document.html">
-          <span>＋</span> Add Document
-        </a>
-        <a class="sidebar-link" href="documents.html">
-          <span>▤</span> My Documents
-        </a>
-        <a class="sidebar-link" href="vehicle.html">
-          <span>🚗</span> Vehicle Vault
-        </a>
-        <a class="sidebar-link" href="reminders.html">
-          <span>🔔</span> Reminders
-        </a>
-      </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-icon">🛡️</div>
+      <h3>Your Vault</h3>
+      <p>Keep your important records organized.</p>
+    </div>
+  </aside>
 
-      <div class="sidebar-bottom">
-        <div class="sidebar-security-icon">🛡️</div>
-        <h3>Your Documents</h3>
-        <p>Keep your important records organized in one place.</p>
-        <a href="documents.html">Explore Vault →</a>
+  <main class="main-content">
+
+    <header class="dashboard-topbar">
+      <div>
+        <p class="eyebrow">YOUR PERSONAL DIGITAL ORGANIZER</p>
+        <h1>Dashboard</h1>
+        <p class="muted">Welcome to your Smart Document Vault.</p>
       </div>
 
-      <div class="sidebar-footer">SMART DOCUMENT VAULT<br>Academic Year 2026–27</div>
-    </aside>
+      <a class="btn" href="add-document.html">＋ Add Document</a>
+    </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
+    <section class="dashboard-welcome">
+      <div class="welcome-content">
+        <span class="welcome-tag">✨ SMART DOCUMENT MANAGEMENT</span>
+        <h2>All Your Documents.<br><span>One Smart Vault.</span></h2>
+        <p>
+          Manage vehicle documents, mobile warranties and appliance bills
+          in one organized place. Keep track of important expiry dates.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="add-document.html">＋ Add New Document</a>
+          <a class="btn btn-outline" href="documents.html">Explore My Vault →</a>
+        </div>
+      </div>
+      <div class="welcome-art" aria-hidden="true">
+        <div class="art-circle">🔐</div>
+        <div class="art-card art-card-one">📄 Documents</div>
+        <div class="art-card art-card-two">🔔 Reminders</div>
+      </div>
+    </section>
 
-      <!-- TOP BAR -->
-      <header class="dashboard-topbar">
+    <section class="dashboard-section">
+      <div class="section-heading">
         <div>
-          <p class="dashboard-breadcrumb">Workspace / Dashboard</p>
-          <h1>Dashboard</h1>
+          <h2>Overview</h2>
+          <p class="muted">A quick summary of your document records.</p>
         </div>
+      </div>
 
-        <a class="dashboard-add-btn" href="add-document.html">
-          <span>＋</span> Add Document
+      <div class="dashboard-stats">
+        <article class="dashboard-stat">
+          <div class="stat-top">
+            <span class="stat-icon blue">📁</span>
+            <span class="stat-label">TOTAL DOCUMENTS</span>
+          </div>
+          <h3 id="totalCount" aria-live="polite">0</h3>
+          <p>All saved document records</p>
+        </article>
+
+        <article class="dashboard-stat">
+          <div class="stat-top">
+            <span class="stat-icon orange">⏳</span>
+            <span class="stat-label">EXPIRING SOON</span>
+          </div>
+          <h3 id="soonCount" aria-live="polite">0</h3>
+          <p>Expiring within 30 days</p>
+        </article>
+
+        <article class="dashboard-stat">
+          <div class="stat-top">
+            <span class="stat-icon red">⚠️</span>
+            <span class="stat-label">EXPIRED</span>
+          </div>
+          <h3 id="expiredCount" aria-live="polite">0</h3>
+          <p>Past their expiry date</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <div class="section-heading">
+        <div>
+          <h2>Explore Categories</h2>
+          <p class="muted">Choose a category to manage your records.</p>
+        </div>
+      </div>
+
+      <div class="dashboard-categories">
+        <a class="dashboard-category" href="vehicle.html">
+          <div class="category-icon blue">🚗</div>
+          <h3>Vehicle Vault</h3>
+          <p>Manage RC, insurance, PUC and vehicle warranty.</p>
+          <span class="category-link">Manage vehicle <span>→</span></span>
         </a>
-      </header>
 
-      <!-- WELCOME SECTION -->
-      <section class="dashboard-welcome">
-        <div class="welcome-content">
-          <span class="welcome-tag">YOUR PERSONAL DIGITAL ORGANIZER</span>
-          <h2>Welcome to your<br><span>Smart Document Vault.</span></h2>
-          <p>
-            All your important documents, warranties and vehicle records
-            organized in one place. Stay prepared for every expiry date.
-          </p>
+        <a class="dashboard-category" href="documents.html?category=Mobile">
+          <div class="category-icon purple">📱</div>
+          <h3>Mobile Warranty</h3>
+          <p>Organize mobile bills and warranty dates.</p>
+          <span class="category-link">View mobiles <span>→</span></span>
+        </a>
 
-          <div class="welcome-actions">
-            <a class="welcome-primary-btn" href="add-document.html">
-              + Add New Document
-            </a>
-            <a class="welcome-secondary-btn" href="documents.html">
-              Explore My Vault →
-            </a>
-          </div>
+        <a class="dashboard-category" href="documents.html?category=Home%20Appliance">
+          <div class="category-icon green">🏠</div>
+          <h3>Home Appliances</h3>
+          <p>Manage TV, AC, refrigerator and appliance records.</p>
+          <span class="category-link">View appliances <span>→</span></span>
+        </a>
+
+        <a class="dashboard-category" href="reminders.html">
+          <div class="category-icon orange">🔔</div>
+          <h3>Smart Reminders</h3>
+          <p>Review upcoming expiry dates and expired records.</p>
+          <span class="category-link">View reminders <span>→</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="dashboard-bottom">
+      <article class="dashboard-panel">
+        <div class="panel-icon">🚀</div>
+        <h2>How It Works</h2>
+        <div class="mini-step">
+          <span>01</span>
+          <div><h3>Add</h3><p>Enter your document details.</p></div>
         </div>
-
-        <div class="welcome-visual" aria-hidden="true">
-          <div class="visual-glow"></div>
-          <div class="vault-illustration">
-            <div class="vault-lock">🔐</div>
-            <div class="vault-caption">YOUR DIGITAL VAULT</div>
-            <div class="vault-status"><span></span> DOCUMENTS ORGANIZED</div>
-          </div>
+        <div class="mini-step">
+          <span>02</span>
+          <div><h3>Organize</h3><p>Keep records in one place.</p></div>
         </div>
-      </section>
-
-      <!-- STATISTICS -->
-      <section class="dashboard-section" aria-labelledby="overviewTitle">
-        <div class="dashboard-section-heading">
-          <div>
-            <p class="section-kicker">AT A GLANCE</p>
-            <h2 id="overviewTitle">Your Overview</h2>
-          </div>
-          <a href="documents.html" class="section-view-link">View documents →</a>
+        <div class="mini-step">
+          <span>03</span>
+          <div><h3>Track</h3><p>Monitor expiry dates.</p></div>
         </div>
+      </article>
 
-        <div class="dashboard-stats">
+      <article class="dashboard-panel quick-panel">
+        <div class="panel-icon">⚡</div>
+        <h2>Quick Actions</h2>
+        <p class="muted">Access your most-used tools.</p>
+        <a class="quick-link" href="add-document.html">
+          <span class="quick-icon">➕</span>
+          <span><strong>Add a Document</strong><small>Create a new record</small></span>
+          <span class="quick-arrow">→</span>
+        </a>
+        <a class="quick-link" href="documents.html">
+          <span class="quick-icon">🔎</span>
+          <span><strong>Search Documents</strong><small>Find a saved record</small></span>
+          <span class="quick-arrow">→</span>
+        </a>
+        <a class="quick-link" href="reminders.html">
+          <span class="quick-icon">🗓️</span>
+          <span><strong>Check Reminders</strong><small>Review expiry dates</small></span>
+          <span class="quick-arrow">→</span>
+        </a>
+      </article>
+    </section>
 
-          <article class="dashboard-stat-card">
-            <div class="stat-topline">
-              <span class="stat-icon stat-icon-blue">▤</span>
-              <span class="stat-label">ALL RECORDS</span>
-            </div>
-            <p class="stat-name">Total Documents</p>
-            <h3 id="totalCount" aria-live="polite">0</h3>
-            <p class="stat-description">Saved document records</p>
-          </article>
+    <footer class="dashboard-footer">
+      © 2026 Smart Document Vault <span>Made for PBL Project</span>
+    </footer>
 
-          <article class="dashboard-stat-card">
-            <div class="stat-topline">
-              <span class="stat-icon stat-icon-orange">◷</span>
-              <span class="stat-label">UPCOMING</span>
-            </div>
-            <p class="stat-name">Expiring Soon</p>
-            <h3 id="soonCount" aria-live="polite">0</h3>
-            <p class="stat-description">Expiry within 30 days</p>
-          </article>
-
-          <article class="dashboard-stat-card">
-            <div class="stat-topline">
-              <span class="stat-icon stat-icon-red">!</span>
-              <span class="stat-label">ACTION NEEDED</span>
-            </div>
-            <p class="stat-name">Expired Documents</p>
-            <h3 id="expiredCount" aria-live="polite">0</h3>
-            <p class="stat-description">Past their expiry date</p>
-          </article>
-
-        </div>
-      </section>
-
-      <!-- CATEGORIES -->
-      <section class="dashboard-section" aria-labelledby="categoriesTitle">
-        <div class="dashboard-section-heading">
-          <div>
-            <p class="section-kicker">KEEP EVERYTHING IN ORDER</p>
-            <h2 id="categoriesTitle">Explore Categories</h2>
-          </div>
-        </div>
-
-        <div class="dashboard-category-grid">
-
-          <a class="dashboard-category-card" href="vehicle.html">
-            <div class="category-card-top">
-              <span class="dashboard-category-icon">🚗</span>
-              <span class="category-arrow">↗</span>
-            </div>
-            <h3>Vehicle Vault</h3>
-            <p>RC, insurance, PUC and vehicle warranty records.</p>
-            <span class="category-card-link">Manage vehicle →</span>
-          </a>
-
-          <a class="dashboard-category-card" href="documents.html?category=Mobile">
-            <div class="category-card-top">
-              <span class="dashboard-category-icon">📱</span>
-              <span class="category-arrow">↗</span>
-            </div>
-            <h3>Mobile Warranty</h3>
-            <p>Mobile bills, IMEI details and warranty dates.</p>
-            <span class="category-card-link">View mobiles →</span>
-          </a>
-
-          <a class="dashboard-category-card" href="documents.html?category=Home%20Appliance">
-            <div class="category-card-top">
-              <span class="dashboard-category-icon">🏠</span>
-              <span class="category-arrow">↗</span>
-            </div>
-            <h3>Home Appliances</h3>
-            <p>TV, AC, refrigerator and appliance records.</p>
-            <span class="category-card-link">View appliances →</span>
-          </a>
-
-          <a class="dashboard-category-card" href="reminders.html">
-            <div class="category-card-top">
-              <span class="dashboard-category-icon">🔔</span>
-              <span class="category-arrow">↗</span>
-            </div>
-            <h3>Smart Reminders</h3>
-            <p>Check upcoming expiry dates and expired documents.</p>
-            <span class="category-card-link">Check reminders →</span>
-          </a>
-
-        </div>
-      </section>
-
-      <!-- HOW IT WORKS -->
-      <section class="dashboard-bottom-grid">
-
-        <article class="dashboard-panel">
-          <div class="dashboard-section-heading">
-            <div>
-              <p class="section-kicker">SIMPLE & ORGANIZED</p>
-              <h2>How It Works</h2>
-            </div>
-          </div>
-
-          <div class="dashboard-steps">
-            <div class="dashboard-step">
-              <span class="step-number">01</span>
-              <div>
-                <h3>Add</h3>
-                <p>Enter your document details and expiry dates.</p>
-              </div>
-            </div>
-
-            <div class="dashboard-step">
-              <span class="step-number">02</span>
-              <div>
-                <h3>Organize</h3>
-                <p>Keep your records arranged in one place.</p>
-              </div>
-            </div>
-
-            <div class="dashboard-step">
-              <span class="step-number">03</span>
-              <div>
-                <h3>Track</h3>
-                <p>Monitor expiry dates and upcoming renewals.</p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="dashboard-panel dashboard-quick-panel">
-          <p class="section-kicker">GET STARTED</p>
-          <div class="quick-action-icon">✦</div>
-          <h2>Everything in one place.</h2>
-          <p>Manage your records and stay ready for upcoming renewals.</p>
-
-          <a class="quick-action-link" href="add-document.html">
-            Add a Document <span>→</span>
-          </a>
-          <a class="quick-action-link" href="documents.html">
-            Browse My Documents <span>→</span>
-          </a>
-          <a class="quick-action-link" href="reminders.html">
-            Review Reminders <span>→</span>
-          </a>
-        </article>
-
-      </section>
-
-      <footer class="dashboard-footer">
-        <span>© 2026 Smart Document Vault</span>
-        <span>Second Year Engineering · PBL Project</span>
-      </footer>
-
-    </main>
-  </div>
+  </main>
 
   <script src="script.js"></script>
 </body>
 </html>
+
