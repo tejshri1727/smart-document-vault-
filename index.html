@@ -2,631 +2,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Smart Document Vault helps manage documents, warranties and expiry reminders.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Document Vault</title>
+
+  <meta name="description" content="Smart Document Vault helps manage vehicle documents, mobile warranties, home appliance bills, and expiry reminders.">
+
   <title>Smart Document Vault | Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body class="vault-dashboard">
+  <!-- Navigation -->
+<nav>
+<a class="brand" href="index.html">🔐 Smart Vault</a>
 
-  <aside class="sidebar">
-    <a class="brand" href="index.html">🔐 Smart Vault</a>
+<div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html" aria-current="page">Home</a>
+<a href="add-document.html">Add Document</a>
+<a href="documents.html">My Documents</a>
+<a href="vehicle.html">Vehicle</a>
+<a href="reminders.html">Reminders</a>
+</div>
+</nav>
 
-    <p class="sidebar-label">MAIN MENU</p>
+  <!-- Hero Section -->
+<header class="hero">
+<span class="eyebrow">YOUR PERSONAL DIGITAL ORGANIZER</span>
+    <h1>All Your Documents.<br><span>One Smart Vault.</span></h1>
+    <p>Manage vehicle documents, mobile warranties and home appliance bills in one place.</p>
+    <a class="btn" href="add-document.html">+ Add New Document</a>
+    <a class="btn btn-outline" href="documents.html">Explore My Vault</a>
+  </header>
 
-    <nav class="sidebar-nav">
-      <a class="active" href="index.html">🏠 <span>Dashboard</span></a>
-      <a href="add-document.html">➕ <span>Add Document</span></a>
-      <a href="documents.html">📁 <span>My Documents</span></a>
-      <a href="vehicle.html">🚗 <span>Vehicle Vault</span></a>
-      <a href="reminders.html">🔔 <span>Reminders</span></a>
-    </nav>
-
-    <div class="sidebar-bottom">
-      <div class="sidebar-icon">🛡️</div>
-      <h3>Your Vault</h3>
-      <p>Keep your important records organized.</p>
+  <main class="container">
+    <h2 class="section-title">Your Dashboard</h2>
+    <div class="stats">
+      <div class="stat-card"><span>Total Documents</span><h2 id="totalCount">0</h2></div>
+      <div class="stat-card"><span>Expiring Soon</span><h2 id="soonCount">0</h2></div>
+      <div class="stat-card"><span>Expired</span><h2 id="expiredCount">0</h2></div>
     </div>
-  </aside>
+    <h1>
+      All Your Documents.<br>
+      <span>One Smart Vault.</span>
+    </h1>
 
-  <main class="main-content">
+    <h2 class="section-title">Explore Categories</h2>
+    <div class="category-grid">
+      <a class="category-card" href="vehicle.html">
+        <span class="category-icon">🚗</span>
+        <h3>Vehicle Vault</h3>
+        <p>RC, Insurance, PUC and vehicle warranty.</p>
+        <span class="card-link">Manage vehicle →</span>
+      </a>
+      <a class="category-card" href="documents.html?category=Mobile">
+        <span class="category-icon">📱</span>
+        <h3>Mobile Warranty</h3>
+        <p>Mobile bills, IMEI, purchase and warranty dates.</p>
+        <span class="card-link">View mobiles →</span>
+      </a>
+      <a class="category-card" href="documents.html?category=Home Appliance">
+        <span class="category-icon">🏠</span>
+        <h3>Home Appliances</h3>
+        <p>TV, AC, refrigerator, washing machine and more.</p>
+        <span class="card-link">View appliances →</span>
+    <p>
+      Manage vehicle documents, mobile warranties and
+      home appliance bills in one place.
+      Track expiry dates and stay organized.
+    </p>
 
-    <header class="dashboard-topbar">
-      <div>
-        <p class="eyebrow">YOUR PERSONAL DIGITAL ORGANIZER</p>
-        <h1>Dashboard</h1>
-        <p class="muted">Welcome to your Smart Document Vault.</p>
-      </div>
+    <div class="hero-actions">
+      <a class="btn" href="add-document.html">
+        + Add New Document
+</a>
+      <a class="category-card" href="reminders.html">
+        <span class="category-icon">🔔</span>
+        <h3>Smart Reminders</h3>
+        <p>Check upcoming and expired documents.</p>
+        <span class="card-link">View reminders →</span>
 
-      <a class="btn" href="add-document.html">＋ Add Document</a>
-    </header>
+      <a class="btn btn-outline" href="documents.html">
+        Explore My Vault
+</a>
+</div>
+  </header>
 
-    <section class="dashboard-welcome">
-      <div class="welcome-content">
-        <span class="welcome-tag">✨ SMART DOCUMENT MANAGEMENT</span>
-        <h2>All Your Documents.<br><span>One Smart Vault.</span></h2>
-        <p>
-          Manage vehicle documents, mobile warranties and appliance bills
-          in one organized place. Keep track of important expiry dates.
-        </p>
-        <div class="hero-actions">
-          <a class="btn" href="add-document.html">＋ Add New Document</a>
-          <a class="btn btn-outline" href="documents.html">Explore My Vault →</a>
-        </div>
-      </div>
-      <div class="welcome-art" aria-hidden="true">
-        <div class="art-circle">🔐</div>
-        <div class="art-card art-card-one">📄 Documents</div>
-        <div class="art-card art-card-two">🔔 Reminders</div>
-      </div>
-    </section>
+  <main class="container">
 
-    <section class="dashboard-section">
-      <div class="section-heading">
-        <div>
-          <h2>Overview</h2>
-          <p class="muted">A quick summary of your document records.</p>
-        </div>
-      </div>
+    <!-- Dashboard -->
+    <section aria-labelledby="dashboardTitle">
+      <h2 class="section-title" id="dashboardTitle">
+        Your Dashboard
+      </h2>
 
-      <div class="dashboard-stats">
-        <article class="dashboard-stat">
-          <div class="stat-top">
-            <span class="stat-icon blue">📁</span>
-            <span class="stat-label">TOTAL DOCUMENTS</span>
-          </div>
-          <h3 id="totalCount" aria-live="polite">0</h3>
+      <div class="stats">
+
+        <div class="stat-card">
+          <span>Total Documents</span>
+          <h2 id="totalCount" aria-live="polite">0</h2>
           <p>All saved document records</p>
-        </article>
+        </div>
 
-        <article class="dashboard-stat">
-          <div class="stat-top">
-            <span class="stat-icon orange">⏳</span>
-            <span class="stat-label">EXPIRING SOON</span>
-          </div>
-          <h3 id="soonCount" aria-live="polite">0</h3>
-          <p>Expiring within 30 days</p>
-        </article>
+        <div class="stat-card">
+          <span>Expiring Soon</span>
+          <h2 id="soonCount" aria-live="polite">0</h2>
+          <p>Expiry within the next 30 days</p>
+        </div>
 
-        <article class="dashboard-stat">
-          <div class="stat-top">
-            <span class="stat-icon red">⚠️</span>
-            <span class="stat-label">EXPIRED</span>
-          </div>
-          <h3 id="expiredCount" aria-live="polite">0</h3>
-          <p>Past their expiry date</p>
-        </article>
+        <div class="stat-card">
+          <span>Expired</span>
+          <h2 id="expiredCount" aria-live="polite">0</h2>
+          <p>Documents past their expiry date</p>
+        </div>
+
       </div>
     </section>
 
-    <section class="dashboard-section">
-      <div class="section-heading">
-        <div>
-          <h2>Explore Categories</h2>
-          <p class="muted">Choose a category to manage your records.</p>
-        </div>
-      </div>
+    <!-- Categories -->
+    <section aria-labelledby="categoriesTitle">
+      <h2 class="section-title" id="categoriesTitle">
+        Explore Categories
+      </h2>
 
-      <div class="dashboard-categories">
-        <a class="dashboard-category" href="vehicle.html">
-          <div class="category-icon blue">🚗</div>
+      <div class="category-grid">
+
+        <a class="category-card" href="vehicle.html">
+          <span class="category-icon">🚗</span>
           <h3>Vehicle Vault</h3>
           <p>Manage RC, insurance, PUC and vehicle warranty.</p>
-          <span class="category-link">Manage vehicle <span>→</span></span>
+          <span class="card-link">Manage vehicle →</span>
         </a>
 
-        <a class="dashboard-category" href="documents.html?category=Mobile">
-          <div class="category-icon purple">📱</div>
+        <a class="category-card"
+           href="documents.html?category=Mobile">
+          <span class="category-icon">📱</span>
           <h3>Mobile Warranty</h3>
-          <p>Organize mobile bills and warranty dates.</p>
-          <span class="category-link">View mobiles <span>→</span></span>
+          <p>Manage mobile bills, IMEI details and warranty dates.</p>
+          <span class="card-link">View mobiles →</span>
         </a>
 
-        <a class="dashboard-category" href="documents.html?category=Home%20Appliance">
-          <div class="category-icon green">🏠</div>
+        <a class="category-card"
+           href="documents.html?category=Home%20Appliance">
+          <span class="category-icon">🏠</span>
           <h3>Home Appliances</h3>
-          <p>Manage TV, AC, refrigerator and appliance records.</p>
-          <span class="category-link">View appliances <span>→</span></span>
+          <p>Manage TV, AC, refrigerator and washing machine records.</p>
+          <span class="card-link">View appliances →</span>
         </a>
 
-        <a class="dashboard-category" href="reminders.html">
-          <div class="category-icon orange">🔔</div>
+        <a class="category-card" href="reminders.html">
+          <span class="category-icon">🔔</span>
           <h3>Smart Reminders</h3>
-          <p>Review upcoming expiry dates and expired records.</p>
-          <span class="category-link">View reminders <span>→</span></span>
+          <p>Check upcoming expiry dates and expired documents.</p>
+          <span class="card-link">View reminders →</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="panel" aria-labelledby="howItWorksTitle">
+      <h2 id="howItWorksTitle">How It Works</h2>
+
+    <section class="panel">
+      <h2>How It Works</h2>
+<div class="steps">
+        <div><strong>01</strong><h3>Add</h3><p>Enter document details and dates.</p></div>
+        <div><strong>02</strong><h3>Organize</h3><p>Keep your records in one dashboard.</p></div>
+        <div><strong>03</strong><h3>Track</h3><p>Monitor expiry dates and upcoming renewals.</p></div>
+
+        <div>
+          <strong>01</strong>
+          <h3>Add</h3>
+          <p>Enter your document details and expiry dates.</p>
+        </div>
+
+        <div>
+          <strong>02</strong>
+          <h3>Organize</h3>
+          <p>Keep your records organized in one place.</p>
+        </div>
+
+        <div>
+          <strong>03</strong>
+          <h3>Track</h3>
+          <p>Monitor expiry dates and upcoming renewals.</p>
+        </div>
+
+</div>
+</section>
+
+    <!-- Quick Actions -->
+    <section class="panel" aria-labelledby="quickActionsTitle">
+      <h2 id="quickActionsTitle">Quick Actions</h2>
+
+      <div class="hero-actions">
+        <a class="btn" href="add-document.html">
+          Add Document
+        </a>
+
+        <a class="btn btn-outline" href="documents.html">
+          Search Documents
+        </a>
+
+        <a class="btn btn-outline" href="reminders.html">
+          Check Reminders
         </a>
       </div>
     </section>
 
-    <section class="dashboard-bottom">
-      <article class="dashboard-panel">
-        <div class="panel-icon">🚀</div>
-        <h2>How It Works</h2>
-        <div class="mini-step">
-          <span>01</span>
-          <div><h3>Add</h3><p>Enter your document details.</p></div>
-        </div>
-        <div class="mini-step">
-          <span>02</span>
-          <div><h3>Organize</h3><p>Keep records in one place.</p></div>
-        </div>
-        <div class="mini-step">
-          <span>03</span>
-          <div><h3>Track</h3><p>Monitor expiry dates.</p></div>
-        </div>
-      </article>
+</main>
 
-      <article class="dashboard-panel quick-panel">
-        <div class="panel-icon">⚡</div>
-        <h2>Quick Actions</h2>
-        <p class="muted">Access your most-used tools.</p>
-        <a class="quick-link" href="add-document.html">
-          <span class="quick-icon">➕</span>
-          <span><strong>Add a Document</strong><small>Create a new record</small></span>
-          <span class="quick-arrow">→</span>
-        </a>
-        <a class="quick-link" href="documents.html">
-          <span class="quick-icon">🔎</span>
-          <span><strong>Search Documents</strong><small>Find a saved record</small></span>
-          <span class="quick-arrow">→</span>
-        </a>
-        <a class="quick-link" href="reminders.html">
-          <span class="quick-icon">🗓️</span>
-          <span><strong>Check Reminders</strong><small>Review expiry dates</small></span>
-          <span class="quick-arrow">→</span>
-        </a>
-      </article>
-    </section>
+  <footer>© 2026 Smart Document Vault | PBL Project</footer>
+  <!-- Footer -->
+  <footer>
+    © 2026 Smart Document Vault | PBL Project
+  </footer>
 
-    <footer class="dashboard-footer">
-      © 2026 Smart Document Vault <span>Made for PBL Project</span>
-    </footer>
+<script src="script.js"></script>
 
-  </main>
-
-  <script src="script.js"></script>
 </body>
 </html>
-
-/* FIX: Match existing index.html dashboard classes */
-
-.vault-dashboard {
-  min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-}
-
-.vault-dashboard .sidebar {
-  position: fixed;
-  inset: 0 auto 0 0;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  width: 245px;
-  padding: 24px 17px;
-  overflow-y: auto;
-  background: var(--sidebar);
-  border-right: 1px solid var(--border);
-}
-
-.vault-dashboard .sidebar .brand {
-  display: block;
-  padding: 8px;
-  margin-bottom: 24px;
-  color: white;
-  font-size: 19px;
-  font-weight: 800;
-}
-
-.vault-dashboard .sidebar-label {
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-}
-
-.vault-dashboard .sidebar-nav {
-  display: grid;
-  gap: 8px;
-}
-
-.vault-dashboard .sidebar-nav a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  border-radius: 10px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.vault-dashboard .sidebar-nav a.active,
-.vault-dashboard .sidebar-nav a:hover {
-  background: #253963;
-  color: white;
-}
-
-.vault-dashboard .sidebar-bottom {
-  margin-top: auto;
-  padding: 17px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-
-.vault-dashboard .sidebar-bottom p,
-.vault-dashboard .muted {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.vault-dashboard .main-content {
-  min-width: 0;
-  margin-left: 245px;
-  padding: 30px clamp(20px, 3vw, 42px);
-}
-
-.vault-dashboard .dashboard-topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 25px;
-}
-
-.vault-dashboard .dashboard-topbar h1 {
-  margin: 8px 0;
-  font-size: 28px;
-}
-
-.vault-dashboard .eyebrow {
-  color: #a9bcff;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-}
-
-.vault-dashboard .btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 17px;
-  border-radius: 10px;
-  background: linear-gradient(110deg, #527cff, #8865f5);
-  color: white;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.vault-dashboard .dashboard-welcome {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 25px;
-  padding: 35px;
-  border: 1px solid #3b4d7a;
-  border-radius: 22px;
-  background: radial-gradient(circle at top right, #7053a955, transparent 40%),
-              linear-gradient(115deg, #1d3260, #29264f);
-}
-
-.vault-dashboard .welcome-content {
-  max-width: 600px;
-}
-
-.vault-dashboard .welcome-tag {
-  color: #c7d4ff;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.vault-dashboard .dashboard-welcome h2 {
-  color: white;
-  font-size: clamp(27px, 3vw, 40px);
-  line-height: 1.2;
-}
-
-.vault-dashboard .dashboard-welcome h2 span {
-  color: #bfcaff;
-}
-
-.vault-dashboard .dashboard-welcome p {
-  color: #d1d8f0;
-  font-size: 13px;
-}
-
-.vault-dashboard .hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.vault-dashboard .btn-outline {
-  border: 1px solid #9aabef;
-  background: transparent;
-}
-
-.vault-dashboard .welcome-art {
-  position: relative;
-  display: grid;
-  flex: 0 0 150px;
-  min-height: 150px;
-  place-items: center;
-}
-
-.vault-dashboard .art-circle {
-  display: grid;
-  place-items: center;
-  width: 115px;
-  height: 115px;
-  border: 1px solid #ffffff50;
-  border-radius: 28px;
-  background: linear-gradient(135deg, #648cff, #a78bfa);
-  font-size: 48px;
-  transform: rotate(5deg);
-}
-
-.vault-dashboard .art-card {
-  position: absolute;
-  padding: 8px 10px;
-  border: 1px solid #ffffff30;
-  border-radius: 9px;
-  background: #172544;
-  color: white;
-  font-size: 10px;
-}
-
-.vault-dashboard .art-card-one {
-  top: 5px;
-  left: -10px;
-}
-
-.vault-dashboard .art-card-two {
-  right: -5px;
-  bottom: 5px;
-}
-
-.vault-dashboard .dashboard-section {
-  margin-top: 32px;
-}
-
-.vault-dashboard .section-heading {
-  margin-bottom: 17px;
-}
-
-.vault-dashboard .section-heading h2 {
-  margin-bottom: 4px;
-}
-
-.vault-dashboard .dashboard-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.vault-dashboard .dashboard-stat {
-  min-width: 0;
-  padding: 21px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-
-.vault-dashboard .stat-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.vault-dashboard .stat-icon,
-.vault-dashboard .category-icon {
-  display: grid;
-  place-items: center;
-  width: 43px;
-  height: 43px;
-  border-radius: 13px;
-  background: #26385e;
-  font-size: 21px;
-}
-
-.vault-dashboard .stat-icon.orange,
-.vault-dashboard .category-icon.orange {
-  background: #493722;
-}
-
-.vault-dashboard .stat-icon.red {
-  background: #49283b;
-}
-
-.vault-dashboard .stat-label {
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.vault-dashboard .dashboard-stat h3 {
-  margin: 17px 0 5px;
-  font-size: 35px;
-}
-
-.vault-dashboard .dashboard-stat p,
-.vault-dashboard .dashboard-category p,
-.vault-dashboard .mini-step p {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.vault-dashboard .dashboard-categories {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.vault-dashboard .dashboard-category {
-  display: block;
-  min-width: 0;
-  padding: 22px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  transition: .2s;
-}
-
-.vault-dashboard .dashboard-category:hover {
-  transform: translateY(-3px);
-  border-color: var(--blue);
-  background: var(--surface-hover);
-}
-
-.vault-dashboard .dashboard-category h3 {
-  margin-bottom: 8px;
-}
-
-.vault-dashboard .category-link {
-  color: #a9bcff;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.vault-dashboard .dashboard-bottom {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 28px;
-}
-
-.vault-dashboard .dashboard-panel {
-  min-width: 0;
-  padding: 23px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-
-.vault-dashboard .panel-icon {
-  font-size: 25px;
-}
-
-.vault-dashboard .mini-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 13px;
-  margin-top: 18px;
-}
-
-.vault-dashboard .mini-step > span {
-  color: #a9bcff;
-  font-weight: 800;
-}
-
-.vault-dashboard .mini-step h3 {
-  margin: 0;
-  font-size: 13px;
-}
-
-.vault-dashboard .quick-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-  font-size: 12px;
-}
-
-.vault-dashboard .quick-icon {
-  font-size: 20px;
-}
-
-.vault-dashboard .quick-link strong,
-.vault-dashboard .quick-link small {
-  display: block;
-}
-
-.vault-dashboard .quick-link small {
-  color: var(--muted);
-}
-
-.vault-dashboard .quick-arrow {
-  margin-left: auto;
-  color: #a9bcff;
-}
-
-.vault-dashboard .dashboard-footer {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 30px;
-  padding: 20px 0;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 11px;
-}
-
-@media (max-width: 900px) {
-  .vault-dashboard .sidebar {
-    width: 200px;
-  }
-
-  .vault-dashboard .main-content {
-    margin-left: 200px;
-    padding: 22px;
-  }
-
-  .vault-dashboard .welcome-art {
-    display: none;
-  }
-
-  .vault-dashboard .dashboard-stats {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 600px) {
-  .vault-dashboard .sidebar {
-    position: relative;
-    width: 100%;
-    padding: 14px;
-  }
-
-  .vault-dashboard .sidebar-bottom {
-    display: none;
-  }
-
-  .vault-dashboard .sidebar-nav {
-    display: flex;
-    overflow-x: auto;
-  }
-
-  .vault-dashboard .sidebar-nav a {
-    flex: 0 0 auto;
-  }
-
-  .vault-dashboard .main-content {
-    margin-left: 0;
-    padding: 18px 14px;
-  }
-
-  .vault-dashboard .dashboard-topbar {
-    align-items: flex-start;
-  }
-
-  .vault-dashboard .dashboard-topbar h1 {
-    font-size: 23px;
-  }
-
-  .vault-dashboard .dashboard-welcome {
-    padding: 23px;
-  }
-
-  .vault-dashboard .dashboard-categories,
-  .vault-dashboard .dashboard-bottom {
-    grid-template-columns: 1fr;
-  }
-}
-
