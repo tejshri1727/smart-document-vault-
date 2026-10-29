@@ -1,14 +1,21 @@
 
-const STORAGE_KEY = "smartVaultDocuments";
+import { auth, db } from "./firebase-config.js";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 const CATEGORIES = ["Vehicle", "Mobile", "Home Appliance"];
 
 const TYPES = {
-  Vehicle: [
-    "RC", "Insurance", "PUC", "Vehicle Warranty",
-    "Vehicle Bill", "Other"
-  ],
+  Vehicle: ["RC", "Insurance", "PUC", "Vehicle Warranty", "Vehicle Bill", "Other"],
   Mobile: ["Mobile Warranty", "Mobile Bill", "Other"],
   "Home Appliance": [
     "Refrigerator Warranty", "Washing Machine Warranty",
@@ -17,27 +24,46 @@ const TYPES = {
   ]
 };
 
-function getDocuments() {
+let currentUser = null;
+let documentsCache = [];
+let initialized = false;
+
+function documentsCollection() {
+  return collection(db, "users", currentUser.uid, "documents");
+}
+
+async function getDocuments() {
+  if (!currentUser) return [];
+
   try {
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(data) ? data : [];
+    const snapshot = await getDocs(documentsCollection());
+    documentsCache = snapshot.docs.map(item => ({
+      ...item.data(),
+      id: item.id
+    }));
+    return documentsCache;
   } catch (error) {
-    console.error("Unable to read saved documents:", error);
+    console.error("Unable to load documents:", error);
+    alert("Could not load documents. Please check your internet and Firestore Rules.");
     return [];
   }
 }
 
-function saveDocuments(documents) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(documents));
-    // Notify other components on the same page.
-    document.dispatchEvent(new Event("vaultUpdated"));
-    return true;
-  } catch (error) {
-    console.error("Unable to save documents:", error);
-    alert("Could not save. Browser storage may be full.");
-    return false;
-  }
+async function addDocumentRecord(record) {
+  const result = await addDoc(documentsCollection(), {
+    ...record,
+    createdAt: new Date().toISOString(),
+    reminderSent: false
+  });
+  return result.id;
+}
+
+async function updateDocumentRecord(id, record) {
+  await updateDoc(doc(db, "users", currentUser.uid, "documents", id), record);
+}
+
+async function deleteDocumentRecord(id) {
+  await deleteDoc(doc(db, "users", currentUser.uid, "documents", id));
 }
 
 function escapeHTML(value) {
@@ -50,7 +76,6 @@ function escapeHTML(value) {
   })[char]);
 }
 
-// Parse YYYY-MM-DD as a local calendar date.
 function parseDate(value) {
   if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
 
@@ -93,31 +118,113 @@ function statusClass(status) {
   return "neutral";
 }
 
-function renderDocumentCard(doc, showActions = true) {
-  const status = getStatus(doc.expiry);
+function renderDocumentCard(item, showActions = true) {
+  const status = getStatus(item.expiry);
 
   return `
     <article class="document-card">
-      <h3>${escapeHTML(doc.name)}</h3>
-      <p><b>Category:</b> ${escapeHTML(doc.category)}</p>
-      <p><b>Type:</b> ${escapeHTML(doc.type)}</p>
-      <p><b>Brand / Vehicle:</b> ${escapeHTML(doc.brand || "Not provided")}</p>
-      <p><b>Document No.:</b> ${escapeHTML(doc.number || "Not provided")}</p>
-      <p><b>Purchase / Issue Date:</b> ${displayDate(doc.issue)}</p>
-      <p><b>Expiry Date:</b> ${displayDate(doc.expiry)}</p>
+      <h3>${escapeHTML(item.name)}</h3>
+      <p><b>Category:</b> ${escapeHTML(item.category)}</p>
+      <p><b>Type:</b> ${escapeHTML(item.type)}</p>
+      <p><b>Brand / Vehicle:</b> ${escapeHTML(item.brand || "Not provided")}</p>
+      <p><b>Document No.:</b> ${escapeHTML(item.number || "Not provided")}</p>
+      <p><b>Purchase / Issue Date:</b> ${displayDate(item.issue)}</p>
+      <p><b>Expiry Date:</b> ${displayDate(item.expiry)}</p>
       <span class="status ${statusClass(status)}">${status}</span>
-      ${doc.fileName
-        ? `<p><b>Selected file:</b> ${escapeHTML(doc.fileName)}</p>`
+      ${item.fileName
+        ? `<p><b>Selected file:</b> ${escapeHTML(item.fileName)}</p>`
         : ""}
       ${showActions ? `
         <div class="document-actions">
-          <button type="button" data-edit="${escapeHTML(doc.id)}">Edit</button>
+          <button type="button" data-edit="${escapeHTML(item.id)}">Edit</button>
           <button type="button" class="delete-btn"
-            data-delete="${escapeHTML(doc.id)}">Delete</button>
+            data-delete="${escapeHTML(item.id)}">Delete</button>
         </div>
       ` : ""}
     </article>
   `;
+}
+
+function notifyUpdates() {
+  document.dispatchEvent(new Event("vaultUpdated"));
+}
+
+async function editDocument(id) {
+  const items = await getDocuments();
+  const item = items.find(entry => entry.id === id);
+  if (!item) return alert("Document not found.");
+
+  const name = prompt("Document / Product Name:", item.name);
+  if (name === null) return;
+  if (!name.trim()) return alert("Name cannot be empty.");
+
+  const categoryText = prompt(
+    "Category: Vehicle, Mobile, or Home Appliance",
+    item.category
+  );
+  if (categoryText === null) return;
+
+  const category = CATEGORIES.find(
+    value => value.toLowerCase() === categoryText.trim().toLowerCase()
+  );
+  if (!category) return alert("Please enter a valid category.");
+
+  const type = prompt("Document Type:", item.type);
+  if (type === null) return;
+  if (!type.trim()) return alert("Document type cannot be empty.");
+
+  const brand = prompt("Brand / Vehicle:", item.brand || "");
+  if (brand === null) return;
+
+  const number = prompt("Document / Serial Number:", item.number || "");
+  if (number === null) return;
+
+  const issue = prompt("Purchase / Issue Date (YYYY-MM-DD):", item.issue || "");
+  if (issue === null) return;
+  if (issue && !parseDate(issue)) {
+    return alert("Invalid issue date. Use YYYY-MM-DD.");
+  }
+
+  const expiry = prompt("Expiry Date (YYYY-MM-DD, or blank):", item.expiry || "");
+  if (expiry === null) return;
+  if (expiry && !parseDate(expiry)) {
+    return alert("Invalid expiry date. Use YYYY-MM-DD.");
+  }
+
+  try {
+    await updateDocumentRecord(id, {
+      name: name.trim(),
+      category,
+      type: type.trim(),
+      brand: brand.trim(),
+      number: number.trim(),
+      issue,
+      expiry
+    });
+
+    alert("Document updated successfully!");
+    await refreshCurrentPage();
+  } catch (error) {
+    console.error(error);
+    alert("Could not update document. Please try again.");
+  }
+}
+
+async function deleteDocument(id) {
+  const items = await getDocuments();
+  const item = items.find(entry => entry.id === id);
+  if (!item) return;
+
+  if (!confirm(`Delete "${item.name}"? This cannot be undone.`)) return;
+
+  try {
+    await deleteDocumentRecord(id);
+    alert("Document deleted successfully!");
+    await refreshCurrentPage();
+  } catch (error) {
+    console.error(error);
+    alert("Could not delete document. Please try again.");
+  }
 }
 
 function setupAddForm() {
@@ -126,9 +233,6 @@ function setupAddForm() {
 
   const category = document.getElementById("category");
   const type = document.getElementById("type");
-  const nameLabel = document.getElementById("nameLabel");
-  const brandLabel = document.getElementById("brandLabel");
-  const numberLabel = document.getElementById("numberLabel");
   const expiry = document.getElementById("expiry");
 
   if (!category || !type || !expiry) return;
@@ -137,16 +241,20 @@ function setupAddForm() {
     const items = TYPES[category.value] || TYPES.Vehicle;
     type.replaceChildren();
 
-    items.forEach(item => {
+    items.forEach(value => {
       const option = document.createElement("option");
-      option.value = item;
-      option.textContent = item;
+      option.value = value;
+      option.textContent = value;
       type.appendChild(option);
     });
 
+    const nameLabel = document.getElementById("nameLabel");
+    const brandLabel = document.getElementById("brandLabel");
+    const numberLabel = document.getElementById("numberLabel");
+
     if (nameLabel) {
       nameLabel.textContent = category.value === "Vehicle"
-        ? "Document Name" : "Product / Appliance Name";
+        ? "Document Name *" : "Product / Appliance Name *";
     }
 
     if (brandLabel) {
@@ -167,9 +275,10 @@ function setupAddForm() {
   type.addEventListener("change", () => {
     expiry.required = !type.value.toLowerCase().includes("bill");
   });
+
   updateTypes();
 
-  form.addEventListener("submit", event => {
+  form.addEventListener("submit", async event => {
     event.preventDefault();
 
     const name = document.getElementById("name");
@@ -198,9 +307,6 @@ function setupAddForm() {
     }
 
     const record = {
-      id: crypto.randomUUID
-        ? crypto.randomUUID()
-        : Date.now().toString() + Math.random().toString(36).slice(2),
       category: category.value,
       type: type.value,
       name: name.value.trim(),
@@ -211,90 +317,15 @@ function setupAddForm() {
       fileName: file ? file.name : ""
     };
 
-    const documents = getDocuments();
-    documents.push(record);
-
-    if (saveDocuments(documents)) {
-      alert("Document details saved successfully!");
+    try {
+      await addDocumentRecord(record);
+      alert("Document saved to your cloud account successfully!");
       window.location.href = "documents.html";
+    } catch (error) {
+      console.error(error);
+      alert("Could not save document. Check your login and Firestore Rules.");
     }
   });
-}
-
-function editDocument(id) {
-  const documents = getDocuments();
-  const doc = documents.find(item => item.id === id);
-  if (!doc) return alert("Document not found.");
-
-  const name = prompt("Document / Product Name:", doc.name);
-  if (name === null) return;
-  if (!name.trim()) return alert("Name cannot be empty.");
-
-  const categoryText = prompt(
-    "Category: Vehicle, Mobile, or Home Appliance",
-    doc.category
-  );
-  if (categoryText === null) return;
-
-  const category = CATEGORIES.find(
-    item => item.toLowerCase() === categoryText.trim().toLowerCase()
-  );
-  if (!category) return alert("Please enter a valid category.");
-
-  const typeText = prompt(
-    "Document Type:",
-    doc.type
-  );
-  if (typeText === null) return;
-  if (!typeText.trim()) return alert("Document type cannot be empty.");
-
-  const brand = prompt("Brand / Vehicle:", doc.brand || "");
-  if (brand === null) return;
-
-  const number = prompt("Document / Serial Number:", doc.number || "");
-  if (number === null) return;
-
-  const issue = prompt("Purchase / Issue Date (YYYY-MM-DD):", doc.issue || "");
-  if (issue === null) return;
-  if (issue && !parseDate(issue)) {
-    return alert("Invalid issue date. Use YYYY-MM-DD.");
-  }
-
-  const expiry = prompt("Expiry Date (YYYY-MM-DD, or blank):", doc.expiry || "");
-  if (expiry === null) return;
-  if (expiry && !parseDate(expiry)) {
-    return alert("Invalid expiry date. Use YYYY-MM-DD.");
-  }
-
-  const updated = {
-    ...doc,
-    name: name.trim(),
-    category,
-    type: typeText.trim(),
-    brand: brand.trim(),
-    number: number.trim(),
-    issue,
-    expiry
-  };
-
-  const index = documents.findIndex(item => item.id === id);
-  documents[index] = updated;
-
-  if (saveDocuments(documents)) {
-    refreshCurrentPage();
-  }
-}
-
-function deleteDocument(id) {
-  const documents = getDocuments();
-  const doc = documents.find(item => item.id === id);
-  if (!doc) return;
-
-  if (!confirm(`Delete "${doc.name}"? This cannot be undone.`)) return;
-
-  if (saveDocuments(documents.filter(item => item.id !== id))) {
-    refreshCurrentPage();
-  }
 }
 
 function setupDocumentsPage() {
@@ -306,28 +337,28 @@ function setupDocumentsPage() {
   const categoryFilter = document.getElementById("categoryFilter");
   const params = new URLSearchParams(window.location.search);
 
-  if (categoryFilter &&
-      CATEGORIES.includes(params.get("category"))) {
+  if (categoryFilter && CATEGORIES.includes(params.get("category"))) {
     categoryFilter.value = params.get("category");
   }
 
-  function render() {
+  async function render() {
     const query = (search?.value || "").toLowerCase().trim();
     const selectedCategory = categoryFilter?.value || "";
     const selectedStatus = filter?.value || "";
 
-    const docs = getDocuments().filter(doc => {
-      const text = [
-        doc.name, doc.type, doc.brand, doc.number, doc.category
+    const items = await getDocuments();
+    const filtered = items.filter(item => {
+      const searchable = [
+        item.name, item.type, item.brand, item.number, item.category
       ].join(" ").toLowerCase();
 
-      return text.includes(query)
-        && (!selectedCategory || doc.category === selectedCategory)
-        && (!selectedStatus || getStatus(doc.expiry) === selectedStatus);
+      return searchable.includes(query)
+        && (!selectedCategory || item.category === selectedCategory)
+        && (!selectedStatus || getStatus(item.expiry) === selectedStatus);
     });
 
-    list.innerHTML = docs.length
-      ? docs.map(doc => renderDocumentCard(doc)).join("")
+    list.innerHTML = filtered.length
+      ? filtered.map(item => renderDocumentCard(item)).join("")
       : `<div class="empty-state">No matching documents found.<br>
           <a href="add-document.html">Add a document</a></div>`;
   }
@@ -345,7 +376,6 @@ function setupDocumentsPage() {
   });
 
   document.addEventListener("vaultUpdated", render);
-  window.addEventListener("storage", render);
   render();
 }
 
@@ -353,11 +383,10 @@ function setupVehiclePage() {
   const list = document.getElementById("vehicleList");
   if (!list) return;
 
-  function render() {
-    const docs = getDocuments().filter(doc => doc.category === "Vehicle");
-
-    list.innerHTML = docs.length
-      ? docs.map(doc => renderDocumentCard(doc)).join("")
+  async function render() {
+    const items = (await getDocuments()).filter(item => item.category === "Vehicle");
+    list.innerHTML = items.length
+      ? items.map(item => renderDocumentCard(item)).join("")
       : `<div class="empty-state">No vehicle records yet.<br>
           <a class="btn" href="add-document.html">Add Vehicle Document</a></div>`;
   }
@@ -371,7 +400,6 @@ function setupVehiclePage() {
   });
 
   document.addEventListener("vaultUpdated", render);
-  window.addEventListener("storage", render);
   render();
 }
 
@@ -379,13 +407,13 @@ function setupRemindersPage() {
   const list = document.getElementById("reminderList");
   if (!list) return;
 
-  function render() {
-    const docs = getDocuments().filter(doc =>
-      ["Expired", "Expiring Soon"].includes(getStatus(doc.expiry))
+  async function render() {
+    const items = (await getDocuments()).filter(item =>
+      ["Expired", "Expiring Soon"].includes(getStatus(item.expiry))
     );
 
-    list.innerHTML = docs.length
-      ? docs.map(doc => renderDocumentCard(doc)).join("")
+    list.innerHTML = items.length
+      ? items.map(item => renderDocumentCard(item)).join("")
       : `<div class="empty-state">No expired or upcoming expiry dates found.</div>`;
   }
 
@@ -398,7 +426,6 @@ function setupRemindersPage() {
   });
 
   document.addEventListener("vaultUpdated", render);
-  window.addEventListener("storage", render);
   render();
 }
 
@@ -409,33 +436,43 @@ function setupDashboard() {
 
   if (!total || !soon || !expired) return;
 
-  function render() {
-    const docs = getDocuments();
-
-    total.textContent = docs.length;
-    soon.textContent = docs.filter(
-      doc => getStatus(doc.expiry) === "Expiring Soon"
+  async function render() {
+    const items = await getDocuments();
+    total.textContent = items.length;
+    soon.textContent = items.filter(
+      item => getStatus(item.expiry) === "Expiring Soon"
     ).length;
-    expired.textContent = docs.filter(
-      doc => getStatus(doc.expiry) === "Expired"
+    expired.textContent = items.filter(
+      item => getStatus(item.expiry) === "Expired"
     ).length;
   }
 
   document.addEventListener("vaultUpdated", render);
-  window.addEventListener("storage", render);
-  window.addEventListener("focus", render);
   render();
 }
 
-function refreshCurrentPage() {
-  // Re-render after an edit/delete made with a prompt.
-  document.dispatchEvent(new Event("vaultUpdated"));
+async function refreshCurrentPage() {
+  await getDocuments();
+  notifyUpdates();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function initializePages() {
+  if (initialized) return;
+  initialized = true;
+
   setupAddForm();
   setupDocumentsPage();
   setupVehiclePage();
   setupRemindersPage();
   setupDashboard();
+}
+
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  currentUser = user;
+  initializePages();
 });
