@@ -14,7 +14,16 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
+// ---------------- EMAILJS CONFIGURATION ----------------
+
+const EMAILJS_PUBLIC_KEY = "ha_n5iTLQXIHHRu5M";
+const EMAILJS_SERVICE_ID = "service_xygjp9l";
+const EMAILJS_TEMPLATE_ID = "template_eyyt4ot";
+
+// ---------------- CONSTANTS ----------------
+
 const DAY_MS = 24 * 60 * 60 * 1000;
+const REMINDER_DAYS = 7;
 
 const CATEGORIES = ["Vehicle", "Mobile", "Home Appliance"];
 
@@ -41,6 +50,7 @@ let currentUser = null;
 let documentsCache = [];
 let initialized = false;
 let loadError = false;
+let checkingReminders = false;
 
 // ---------------- FIRESTORE ----------------
 
@@ -93,6 +103,95 @@ async function deleteDocumentRecord(id) {
   await deleteDoc(
     doc(db, "users", currentUser.uid, "documents", id)
   );
+}
+
+// ---------------- EMAIL REMINDERS ----------------
+
+async function sendExpiryEmail(item) {
+  if (!currentUser?.email) {
+    throw new Error("Logged-in user email not found.");
+  }
+
+  if (!window.emailjs) {
+    throw new Error(
+      "EmailJS library is not loaded on this page."
+    );
+  }
+
+  return window.emailjs.send(
+    EMAILJS_SERVICE_ID,
+    EMAILJS_TEMPLATE_ID,
+    {
+      to_email: currentUser.email,
+      document_name: item.name || "Document",
+      document_type: item.type || "Document",
+      expiry_date: displayDate(item.expiry)
+    },
+    {
+      publicKey: EMAILJS_PUBLIC_KEY
+    }
+  );
+}
+
+function daysUntilExpiry(expiry) {
+  const date = parseDate(expiry);
+
+  if (!date) return null;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return Math.round((date.getTime() - today.getTime()) / DAY_MS);
+}
+
+async function checkExpiryReminders() {
+  if (!currentUser || checkingReminders) return;
+
+  checkingReminders = true;
+
+  try {
+    const items = await getDocuments();
+
+    if (loadError) return;
+
+    for (const item of items) {
+      const daysLeft = daysUntilExpiry(item.expiry);
+
+      // Send one reminder when expiry is within the next 7 days.
+      // Do not send reminders for already expired documents.
+      if (
+        daysLeft === null ||
+        daysLeft < 0 ||
+        daysLeft > REMINDER_DAYS ||
+        item.reminderSent === true
+      ) {
+        continue;
+      }
+
+      try {
+        await sendExpiryEmail(item);
+
+        // Mark as sent only after EmailJS reports success.
+        await updateDocumentRecord(item.id, {
+          reminderSent: true,
+          reminderSentAt: new Date().toISOString()
+        });
+
+        item.reminderSent = true;
+
+        console.log(
+          `Expiry reminder sent for "${item.name}".`
+        );
+      } catch (error) {
+        console.error(
+          `Could not send reminder for "${item.name}":`,
+          error
+        );
+      }
+    }
+  } finally {
+    checkingReminders = false;
+  }
 }
 
 // ---------------- HELPERS ----------------
@@ -191,12 +290,18 @@ function renderDocumentCard(item, showActions = true) {
       </p>
 
       <span class="status ${statusClass(status)}">
-        ${status}
+        ${escapeHTML(status)}
       </span>
 
       ${
         item.fileName
           ? `<p><b>Selected file:</b> ${escapeHTML(item.fileName)}</p>`
+          : ""
+      }
+
+      ${
+        item.reminderSent
+          ? `<p class="reminder-sent">Email reminder sent</p>`
           : ""
       }
 
@@ -316,8 +421,6 @@ function setupAddForm() {
     const name = document.getElementById("name");
     const brand = document.getElementById("brand");
     const number = document.getElementById("number");
-
-    // The input ID in add-document.html is "file".
     const fileInput = document.getElementById("file");
     const file = fileInput?.files?.[0];
 
@@ -401,6 +504,7 @@ async function editDocument(id) {
 
   const name = prompt("Document / Product Name:", item.name || "");
   if (name === null) return;
+
   if (!name.trim()) {
     alert("Name cannot be empty.");
     return;
@@ -423,6 +527,7 @@ async function editDocument(id) {
 
   const type = prompt("Document Type:", item.type || "");
   if (type === null) return;
+
   if (!type.trim()) {
     alert("Document type cannot be empty.");
     return;
@@ -457,6 +562,8 @@ async function editDocument(id) {
   }
 
   try {
+    const expiryChanged = expiry !== (item.expiry || "");
+
     await updateDocumentRecord(id, {
       name: name.trim(),
       category,
@@ -464,7 +571,10 @@ async function editDocument(id) {
       brand: brand.trim(),
       number: number.trim(),
       issue,
-      expiry
+      expiry,
+      ...(expiryChanged
+        ? { reminderSent: false, reminderSentAt: null }
+        : {})
     });
 
     alert("Document updated successfully!");
@@ -698,6 +808,9 @@ function initializePages() {
   setupVehiclePage();
   setupRemindersPage();
   setupDashboard();
+
+  // Check for email reminders when the logged-in user opens the site.
+  checkExpiryReminders();
 }
 
 onAuthStateChanged(auth, user => {
