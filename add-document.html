@@ -4,144 +4,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Document | Smart Vault</title>
+  <title>Add New Document | Smart Document Vault</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <nav>
-    <a class="brand" href="index.html">🔐 Smart Vault</a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="add-document.html">Add Document</a>
-      <a href="documents.html">My Documents</a>
-      <a href="vehicle.html">Vehicle</a>
-      <a href="reminders.html">Reminders</a>
-    </div>
-  </nav>
-
   <main class="container">
-    <div class="page-heading">
-      <h1>Add New Document</h1>
-      <p>Enter your vehicle, mobile or appliance details.</p>
-    </div>
+    <h1>Add New Document</h1>
+    <p>Enter your vehicle, mobile or appliance details.</p>
 
-    <form id="documentForm" class="form-panel">
-      <div class="form-grid">
-        <div class="field">
-          <label for="category">Category *</label>
-          <select id="category" required>
-            <option value="Vehicle">Vehicle</option>
-            <option value="Mobile">Mobile</option>
-            <option value="Home Appliance">Home Appliance</option>
-          </select>
-        </div>
+    <form id="documentForm">
+      <label for="category">Category *</label>
+      <select id="category" name="category" required>
+        <option value="Vehicle">Vehicle</option>
+        <option value="Mobile">Mobile</option>
+        <option value="Home Appliance">Home Appliance</option>
+      </select>
 
-        <div class="field">
-          <label for="type">Document Type *</label>
-          <select id="type" required>
-            <option value="RC">RC</option>
-            <option value="Insurance">Insurance</option>
-            <option value="PUC">PUC</option>
-            <option value="Vehicle Warranty">Vehicle Warranty</option>
-            <option value="Vehicle Bill">Vehicle Bill</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
+      <label for="type">Document Type *</label>
+      <select id="type" name="type" required>
+        <option value="">Select Document Type</option>
+      </select>
 
-        <div class="field full">
-          <label for="name" id="nameLabel">Document / Product Name *</label>
-          <input id="name" type="text" placeholder="e.g. Honda Activa or Samsung Mobile" required>
-        </div>
+      <label for="name" id="nameLabel">Document / Product Name *</label>
+      <input type="text" id="name" name="name" required
+             placeholder="Enter document or product name">
 
-        <div class="field">
-          <label for="brand" id="brandLabel">Brand / Vehicle Number</label>
-          <input id="brand" type="text" placeholder="Enter brand, model or vehicle number">
-        </div>
+      <label for="brand" id="brandLabel">Brand / Vehicle Number</label>
+      <input type="text" id="brand" name="brand"
+             placeholder="Enter brand or vehicle number">
 
-        <div class="field">
-          <label for="number" id="numberLabel">Document / Serial Number</label>
-          <input id="number" type="text" placeholder="Optional">
-        </div>
+      <label for="number" id="numberLabel">Document / Serial Number</label>
+      <input type="text" id="number" name="number"
+             placeholder="Enter document or serial number">
 
-        <div class="field">
-          <label for="issue">Purchase / Issue Date</label>
-          <input id="issue" type="date">
-        </div>
+      <label for="issue">Purchase / Issue Date</label>
+      <input type="date" id="issue" name="issue">
 
-        <div class="field">
-          <label for="expiry">Warranty / Expiry Date</label>
-          <input id="expiry" type="date">
-        </div>
+      <label for="expiry">Warranty / Expiry Date</label>
+      <input type="date" id="expiry" name="expiry">
 
-        <div class="field full">
-          <label for="documentFile">Select Document File (optional)</label>
-          <input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png">
-          <small class="muted">Only the file name is recorded; the file itself is not uploaded.</small>
-        </div>
-      </div>
+      <label for="file">Select Document File (optional)</label>
+      <input type="file" id="file" name="file"
+             accept=".pdf,.jpg,.jpeg,.png">
 
-      <div class="form-actions">
-        <button class="btn" type="submit">Save Document</button>
-        <a class="btn" href="documents.html">View Documents</a>
-      </div>
+      <button type="submit">Save Document</button>
     </form>
   </main>
-
-  <footer>© 2026 Smart Document Vault | PBL Project</footer>
 
   <script>
     const category = document.getElementById("category");
     const type = document.getElementById("type");
     const expiry = document.getElementById("expiry");
 
-    const types = {
+    const documentTypes = {
       "Vehicle": [
-        "RC", "Insurance", "PUC", "Vehicle Warranty", "Vehicle Bill", "Other"
+        "RC",
+        "Insurance",
+        "PUC",
+        "Vehicle Warranty",
+        "Vehicle Bill",
+        "Other"
       ],
-      "Mobile": ["Mobile Warranty", "Mobile Bill", "Other"],
+      "Mobile": [
+        "Mobile Warranty",
+        "Mobile Bill",
+        "Other"
+      ],
       "Home Appliance": [
-        "Refrigerator Warranty", "Washing Machine Warranty",
-        "TV Warranty", "AC Warranty", "Microwave Warranty",
-        "Other Appliance Warranty", "Appliance Bill", "Other"
+        "Refrigerator Warranty",
+        "Washing Machine Warranty",
+        "TV Warranty",
+        "AC Warranty",
+        "Microwave Warranty",
+        "Other Appliance Warranty",
+        "Appliance Bill",
+        "Other"
       ]
     };
 
-    function updateTypes() {
+    function updateDocumentTypes() {
+      const selectedCategory = category.value;
       const previousValue = type.value;
-      type.replaceChildren();
 
-      (types[category.value] || types.Vehicle).forEach(item => {
+      type.innerHTML = '<option value="">Select Document Type</option>';
+
+      (documentTypes[selectedCategory] || []).forEach(function(item) {
         const option = document.createElement("option");
         option.value = item;
         option.textContent = item;
         type.appendChild(option);
       });
 
-      if ((types[category.value] || []).includes(previousValue)) {
+      if ([...type.options].some(function(option) {
+        return option.value === previousValue && previousValue !== "";
+      })) {
         type.value = previousValue;
       }
 
-      expiry.required = !type.value.toLowerCase().includes("bill");
-
       document.getElementById("nameLabel").textContent =
-        category.value === "Vehicle"
-          ? "Document Name *" : "Product / Appliance Name *";
+        selectedCategory === "Vehicle"
+          ? "Document Name *"
+          : "Product / Appliance Name *";
 
       document.getElementById("brandLabel").textContent =
-        category.value === "Vehicle"
-          ? "Vehicle Number" : "Brand and Model";
+        selectedCategory === "Vehicle"
+          ? "Brand / Vehicle Number"
+          : "Brand / Model";
 
       document.getElementById("numberLabel").textContent =
-        category.value === "Mobile"
-          ? "IMEI Number (optional)" : "Document / Serial Number (optional)";
+        selectedCategory === "Mobile"
+          ? "IMEI Number (optional)"
+          : "Document / Serial Number";
+
+      expiry.required = !type.value.toLowerCase().includes("bill");
     }
 
-    category.addEventListener("change", updateTypes);
-    type.addEventListener("change", () => {
+    category.addEventListener("change", updateDocumentTypes);
+
+    type.addEventListener("change", function() {
       expiry.required = !type.value.toLowerCase().includes("bill");
     });
 
-    updateTypes();
+    updateDocumentTypes();
   </script>
 
   <script type="module" src="script.js"></script>
