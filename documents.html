@@ -1,14 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Documents | Smart Vault</title>
+
+  <title>My Documents | Smart Document Vault</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <nav>
     <a class="brand" href="index.html">🔐 Smart Vault</a>
+
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="add-document.html">Add Document</a>
@@ -22,20 +27,28 @@
     <div class="page-heading">
       <h1>My Document Vault</h1>
       <p>Search and manage all your saved records.</p>
-      <a class="btn" href="add-document.html">+ Add Document</a>
+
+      <a class="btn" href="add-document.html">
+        + Add Document
+      </a>
     </div>
 
     <div class="toolbar">
-      <input id="search" type="search" placeholder="Search name, brand, number...">
+      <input
+        id="search"
+        type="search"
+        placeholder="Search name, brand, number..."
+        aria-label="Search documents"
+      >
 
-      <select id="categoryFilter">
+      <select id="categoryFilter" aria-label="Filter by category">
         <option value="">All Categories</option>
         <option value="Vehicle">Vehicle</option>
         <option value="Mobile">Mobile</option>
         <option value="Home Appliance">Home Appliance</option>
       </select>
 
-      <select id="filter">
+      <select id="filter" aria-label="Filter by status">
         <option value="">All Statuses</option>
         <option value="Active">Active</option>
         <option value="Expiring Soon">Expiring Soon</option>
@@ -44,10 +57,15 @@
       </select>
     </div>
 
-    <div id="documentList" class="document-list"></div>
+    <div id="documentList" class="document-list">
+      <p>Loading documents...</p>
+    </div>
   </main>
 
-  <footer>© 2026 Smart Document Vault | PBL Project</footer>
-  <script src="script.js"></script>
+  <footer>
+    © 2026 Smart Document Vault | PBL Project
+  </footer>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
