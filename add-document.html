@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,21 +38,28 @@
 
         <div class="field">
           <label for="type">Document Type *</label>
-          <select id="type" required></select>
+          <select id="type" required>
+            <option value="RC">RC</option>
+            <option value="Insurance">Insurance</option>
+            <option value="PUC">PUC</option>
+            <option value="Vehicle Warranty">Vehicle Warranty</option>
+            <option value="Vehicle Bill">Vehicle Bill</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
 
         <div class="field full">
-          <label id="nameLabel" for="name">Document / Product Name *</label>
+          <label for="name" id="nameLabel">Document / Product Name *</label>
           <input id="name" type="text" placeholder="e.g. Honda Activa or Samsung Mobile" required>
         </div>
 
         <div class="field">
-          <label id="brandLabel" for="brand">Brand / Vehicle Number</label>
+          <label for="brand" id="brandLabel">Brand / Vehicle Number</label>
           <input id="brand" type="text" placeholder="Enter brand, model or vehicle number">
         </div>
 
         <div class="field">
-          <label id="numberLabel" for="number">Document / Serial Number</label>
+          <label for="number" id="numberLabel">Document / Serial Number</label>
           <input id="number" type="text" placeholder="Optional">
         </div>
 
@@ -68,7 +76,7 @@
         <div class="field full">
           <label for="documentFile">Select Document File (optional)</label>
           <input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png">
-          <small class="muted">Demo only: the file name is recorded, but the file itself is not uploaded.</small>
+          <small class="muted">Only the file name is recorded; the file itself is not uploaded.</small>
         </div>
       </div>
 
@@ -80,6 +88,62 @@
   </main>
 
   <footer>© 2026 Smart Document Vault | PBL Project</footer>
-  <script src="script.js"></script>
+
+  <script>
+    const category = document.getElementById("category");
+    const type = document.getElementById("type");
+    const expiry = document.getElementById("expiry");
+
+    const types = {
+      "Vehicle": [
+        "RC", "Insurance", "PUC", "Vehicle Warranty", "Vehicle Bill", "Other"
+      ],
+      "Mobile": ["Mobile Warranty", "Mobile Bill", "Other"],
+      "Home Appliance": [
+        "Refrigerator Warranty", "Washing Machine Warranty",
+        "TV Warranty", "AC Warranty", "Microwave Warranty",
+        "Other Appliance Warranty", "Appliance Bill", "Other"
+      ]
+    };
+
+    function updateTypes() {
+      const previousValue = type.value;
+      type.replaceChildren();
+
+      (types[category.value] || types.Vehicle).forEach(item => {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        type.appendChild(option);
+      });
+
+      if ((types[category.value] || []).includes(previousValue)) {
+        type.value = previousValue;
+      }
+
+      expiry.required = !type.value.toLowerCase().includes("bill");
+
+      document.getElementById("nameLabel").textContent =
+        category.value === "Vehicle"
+          ? "Document Name *" : "Product / Appliance Name *";
+
+      document.getElementById("brandLabel").textContent =
+        category.value === "Vehicle"
+          ? "Vehicle Number" : "Brand and Model";
+
+      document.getElementById("numberLabel").textContent =
+        category.value === "Mobile"
+          ? "IMEI Number (optional)" : "Document / Serial Number (optional)";
+    }
+
+    category.addEventListener("change", updateTypes);
+    type.addEventListener("change", () => {
+      expiry.required = !type.value.toLowerCase().includes("bill");
+    });
+
+    updateTypes();
+  </script>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
