@@ -63,7 +63,10 @@ function documentsCollection() {
 }
 
 async function getDocuments() {
-  if (!currentUser) return [];
+  if (!currentUser) {
+    loadError = true;
+    return [];
+  }
 
   try {
     const snapshot = await getDocs(documentsCollection());
@@ -113,9 +116,7 @@ async function sendExpiryEmail(item) {
   }
 
   if (!window.emailjs) {
-    throw new Error(
-      "EmailJS library is not loaded on this page."
-    );
+    throw new Error("EmailJS library is not loaded on this page.");
   }
 
   return window.emailjs.send(
@@ -157,8 +158,6 @@ async function checkExpiryReminders() {
     for (const item of items) {
       const daysLeft = daysUntilExpiry(item.expiry);
 
-      // Send one reminder when expiry is within the next 7 days.
-      // Do not send reminders for already expired documents.
       if (
         daysLeft === null ||
         daysLeft < 0 ||
@@ -171,7 +170,6 @@ async function checkExpiryReminders() {
       try {
         await sendExpiryEmail(item);
 
-        // Mark as sent only after EmailJS reports success.
         await updateDocumentRecord(item.id, {
           reminderSent: true,
           reminderSentAt: new Date().toISOString()
@@ -179,9 +177,7 @@ async function checkExpiryReminders() {
 
         item.reminderSent = true;
 
-        console.log(
-          `Expiry reminder sent for "${item.name}".`
-        );
+        console.log(`Expiry reminder sent for "${item.name}".`);
       } catch (error) {
         console.error(
           `Could not send reminder for "${item.name}":`,
@@ -359,6 +355,10 @@ function setupAddForm() {
 
   if (!category || !type || !expiry) return;
 
+  function updateExpiryRequirement() {
+    expiry.required = !type.value.toLowerCase().includes("bill");
+  }
+
   function updateTypes() {
     const items = TYPES[category.value] || TYPES.Vehicle;
     const previousValue = type.value;
@@ -404,10 +404,6 @@ function setupAddForm() {
     }
 
     updateExpiryRequirement();
-  }
-
-  function updateExpiryRequirement() {
-    expiry.required = !type.value.toLowerCase().includes("bill");
   }
 
   category.addEventListener("change", updateTypes);
@@ -497,6 +493,7 @@ async function editDocument(id) {
   }
 
   const item = items.find(entry => entry.id === id);
+
   if (!item) {
     alert("Document not found.");
     return;
@@ -764,13 +761,19 @@ function setupDashboard() {
 
   if (!total || !soon || !expired) return;
 
-  async function render() {
+  async function renderDashboard() {
+    total.textContent = "Loading...";
+    soon.textContent = "Loading...";
+    expired.textContent = "Loading...";
+
     const items = await getDocuments();
 
+    console.log("Dashboard documents:", items);
+
     if (loadError) {
-      total.textContent = "—";
-      soon.textContent = "—";
-      expired.textContent = "—";
+      total.textContent = "Error";
+      soon.textContent = "Error";
+      expired.textContent = "Error";
       return;
     }
 
@@ -785,8 +788,9 @@ function setupDashboard() {
     ).length;
   }
 
-  document.addEventListener("vaultUpdated", render);
-  render();
+  document.addEventListener("vaultUpdated", renderDashboard);
+
+  renderDashboard();
 }
 
 // ---------------- REFRESH ----------------
@@ -809,7 +813,6 @@ function initializePages() {
   setupRemindersPage();
   setupDashboard();
 
-  // Check for email reminders when the logged-in user opens the site.
   checkExpiryReminders();
 }
 
